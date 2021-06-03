@@ -97,3 +97,29 @@ app.post("/message/add/:id", [validId, validUser], (req: Request, res: Response)
   });
 
 });
+
+// Deletar mensagem
+app.delete("/user/:id/message/:idMessage", [validId, validUser], (req: Request, res: Response) => {
+  const {idMessage}: {idMessage?: string} = req.params;
+  const {data}: {data: User} = req.body;
+  
+  const allMessages = data.getAllMessages();
+
+  const message = allMessages.some((item) => item.getId() === idMessage);
+  if(!message) {
+    return res.status(400).json({
+      success: false,
+      data: null,
+      msg: 'Message not found'
+    })
+  }
+
+  const newData = allMessages.filter((item) => item.getId() !== idMessage);
+  data.updateMessages(newData);
+
+  return res.status(200).json({
+    success: true,
+    data: newData
+  });
+
+});

@@ -16,22 +16,26 @@ class User {
     this.messages = [];
   }
 
-  getUser() {
+  getUser(): string {
     return this.user;
   }
 
-  getId() {
+  getId(): string {
     return this.id;
   }
 
-  getAllMessages() {
+  getAllMessages(): Messages[] {
     return this.messages;
   }
 
-  setMessages(desc: string, details: string): any {
+  setMessages(desc: string, details: string): Messages {
     const msg = new Messages(desc, details);
     this.messages.push(msg);
     return this.messages[this.messages.length - 1];
+  }
+
+  updateMessages(messages: any): void {
+    this.messages = messages || [];
   }
 }
 

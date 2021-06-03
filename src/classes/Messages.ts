@@ -10,6 +10,11 @@ class Messages {
     this.description = desc;
     this.details = details;
   }
+
+  getId() {
+    return this.id;
+  }
+
 }
 
 export default Messages;
