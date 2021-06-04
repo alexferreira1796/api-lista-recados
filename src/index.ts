@@ -37,15 +37,6 @@ app.get('/', (req: Request, res: Response) => {
   `);
 });
 
-const user: IUser ={
-  user: "alex", 
-  password: "123", 
-  repeatPass: "123",
-};
-
-const newUser = new User(user.user, user.password, user.repeatPass);
-listUser.push(newUser);
-
 // Rotas de Usuário
 // Retornando todos os users
 app.get("/users", (req: Request, res: Response) => {
