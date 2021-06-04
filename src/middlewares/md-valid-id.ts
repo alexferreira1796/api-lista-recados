@@ -1,4 +1,4 @@
-import express, {Request, Response, NextFunction} from 'express';
+import {Request, Response, NextFunction} from 'express';
 import { validate } from 'uuid';
 
 function validId(req: Request, res: Response, next: NextFunction) {
@@ -7,16 +7,16 @@ function validId(req: Request, res: Response, next: NextFunction) {
   if(id && !validate(id)) {
     return res.status(400).json({
       success: false,
-      data: null,
-      msg: 'ID not validate'
+      msg: 'ID not validate',
+      data: null
     })
   }
 
   if(idMessage && !validate(idMessage)) {
     return res.status(400).json({
       success: false,
-      data: null,
-      msg: 'ID not validate'
+      msg: 'ID Message not validate',
+      data: null
     })
   }
   

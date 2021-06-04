@@ -1,4 +1,4 @@
-import express, {Request, Response, NextFunction} from 'express';
+import {Request, Response, NextFunction} from 'express';
 
 import { users } from '../data';
 
@@ -9,8 +9,8 @@ function validUser(req: Request, res: Response, next: NextFunction) {
   if(!hasUser) {
     return res.status(400).json({
       success: false,
+      msg: 'User not found',
       data: null,
-      msg: 'User not found'
     })
   }
 

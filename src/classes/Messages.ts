@@ -11,8 +11,22 @@ class Messages {
     this.details = details;
   }
 
-  getId() {
+  getId(): string {
     return this.id;
+  }
+
+  getDescription(): string {
+    return this.description;
+  }
+
+  getDetails(): string {
+    return this.details;
+  }
+
+  updateMessage(desc: string, details: string): Messages {
+    this.description = desc;
+    this.details = details;
+    return this;
   }
 
 }

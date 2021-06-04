@@ -8,9 +8,11 @@ import IUser from './interfaces/IUser';
 
 // Middlawres
 import validId from './middlewares/md-valid-id';
-import validUser from './middlewares/md-user';
+import validUser from './middlewares/md-valid-user';
 import validName from './middlewares/md-valid-name';
 import validPassword from './middlewares/md-valid-password';
+import validDescription from './middlewares/md-valid-description';
+import validDetails from './middlewares/md-valid-details';
 
 const app = express();
 
@@ -46,6 +48,7 @@ listUser.push(newUser);
 app.get("/users", (req: Request, res: Response) => {
   res.status(200).json({
     sucess: true,
+    msg: "list users success",
     data: listUser
   });
 });
@@ -56,6 +59,7 @@ app.get("/user/:id", [validId, validUser], (req: Request, res: Response) => {
   
   return res.status(200).json({
     success: true,
+    msg: "user success",
     data: data
   });
 
@@ -68,8 +72,9 @@ app.post("/user/add", [validName, validPassword], (req: Request, res: Response) 
   const newUser = new User(name, password, repeatPass);
   listUser.push(newUser);
 
-  return res.status(200).json({
+  return res.status(201).json({
     success: true,
+    msg: "user saved with success",
     data: listUser[listUser.length - 1]
   });
   
@@ -81,20 +86,51 @@ app.get("/messages/:id", [validId, validUser], (req: Request, res: Response) => 
   const {data}: {data: User} = req.body;
   return res.status(200).json({
     success: true,
+    msg: "all messages",
     data: data.getAllMessages()
   });
 });
 
 // Salvando uma mensagem de um usuário
-app.post("/message/add/:id", [validId, validUser], (req: Request, res: Response) => {
+app.post("/message/add/:id", [validId, validUser, validDescription, validDetails], (req: Request, res: Response) => {
   const {description, details, data}: {description: string, details: string, data: User} = req.body;
 
   const messages = data.setMessages(description, details);
 
-  return res.status(200).json({
+  return res.status(201).json({
     success: true,
+    msg: "saved with success",
     data: messages
   });
+
+});
+
+// Atualizar mensagem
+app.put("/user/:id/message/:idMessage", [validId, validUser, validDescription, validDetails], (req: Request, res: Response) => {
+  const {idMessage}: {idMessage?: string} = req.params;
+  const {description, details, data}: {description: string, details: string, data: User} = req.body;
+
+  const allMessages = data.getAllMessages();
+
+  const message = allMessages.find((item) => item.getId() === idMessage);
+  if(!message) {
+    return res.status(400).json({
+      success: false,
+      msg: 'message not found',
+      data: null
+    })
+  }
+
+  let newDescription = description || message.getDescription();
+  let newDetails = details || message.getDetails();
+
+  const thisMessage = message.updateMessage(newDescription, newDetails);
+
+  res.status(200).json({
+    sucess: true,
+    msg: "updated with success",
+    data: thisMessage
+  })
 
 });
 
@@ -109,8 +145,8 @@ app.delete("/user/:id/message/:idMessage", [validId, validUser], (req: Request, 
   if(!message) {
     return res.status(400).json({
       success: false,
-      data: null,
-      msg: 'Message not found'
+      msg: 'message not found',
+      data: null
     })
   }
 
@@ -119,6 +155,7 @@ app.delete("/user/:id/message/:idMessage", [validId, validUser], (req: Request, 
 
   return res.status(200).json({
     success: true,
+    msg: "deleted with success",
     data: newData
   });
 

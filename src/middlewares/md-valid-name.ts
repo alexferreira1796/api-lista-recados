@@ -1,4 +1,4 @@
-import express, {Request, Response, NextFunction} from 'express';
+import {Request, Response, NextFunction} from 'express';
 
 import { users } from '../data';
 
@@ -8,16 +8,16 @@ function validName(req: Request, res: Response, next: NextFunction) {
   if(!name) {
     return res.status(400).json({
       success: false,
-      data: null,
-      message: 'Please, enter the name'
+      message: 'Please, enter the name',
+      data: null
     });
   }
 
   if(name.trim().length < 3) {
     return res.status(400).json({
       success: false,
-      data: null,
-      message: 'Minimum characters are Three'
+      message: 'Minimum characters are three',
+      data: null
     });
   }
 
@@ -25,8 +25,8 @@ function validName(req: Request, res: Response, next: NextFunction) {
   if(hasUser) {
     return res.status(400).json({
       success: false,
-      data: null,
-      msg: 'User exists'
+      msg: 'User exists',
+      data: null
     })
   }
   
