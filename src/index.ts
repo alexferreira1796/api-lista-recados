@@ -6,6 +6,9 @@ import {users as listUser} from './data';
 import User from './classes/User';
 import IUser from './interfaces/IUser';
 
+import Message from './classes/Messages';
+
+
 // Middlawres
 import validId from './middlewares/md-valid-id';
 import validUser from './middlewares/md-valid-user';
@@ -13,6 +16,7 @@ import validName from './middlewares/md-valid-name';
 import validPassword from './middlewares/md-valid-password';
 import validDescription from './middlewares/md-valid-description';
 import validDetails from './middlewares/md-valid-details';
+import validMessage from './middlewares/md-valid-message';
 
 const app = express();
 
@@ -91,6 +95,7 @@ app.get("/messages/:id", [validId, validUser], (req: Request, res: Response) => 
   });
 });
 
+
 // Salvando uma mensagem de um usuário
 app.post("/message/add/:id", [validId, validUser, validDescription, validDetails], (req: Request, res: Response) => {
   const {description, details, data}: {description: string, details: string, data: User} = req.body;
@@ -105,26 +110,25 @@ app.post("/message/add/:id", [validId, validUser, validDescription, validDetails
 
 });
 
+// Retornando uma mensagem de um usuário
+app.get("/user/:id/message/:idMessage", [validId, validUser, validMessage], (req: Request, res: Response) => {
+  const {data}: {data: User} = req.body;
+
+  return res.status(200).json({
+    success: true,
+    msg: "message sucess",
+    data
+  });
+});
+
 // Atualizar mensagem
-app.put("/user/:id/message/:idMessage", [validId, validUser, validDescription, validDetails], (req: Request, res: Response) => {
-  const {idMessage}: {idMessage?: string} = req.params;
-  const {description, details, data}: {description: string, details: string, data: User} = req.body;
+app.put("/user/:id/message/:idMessage", [validId, validUser, validDescription, validDetails, validMessage], (req: Request, res: Response) => {
+  const {description, details, data}: {description: string, details: string, data: Message} = req.body;
 
-  const allMessages = data.getAllMessages();
+  let newDescription = description || data.getDescription();
+  let newDetails = details || data.getDetails();
 
-  const message = allMessages.find((item) => item.getId() === idMessage);
-  if(!message) {
-    return res.status(400).json({
-      success: false,
-      msg: 'message not found',
-      data: null
-    })
-  }
-
-  let newDescription = description || message.getDescription();
-  let newDetails = details || message.getDetails();
-
-  const thisMessage = message.updateMessage(newDescription, newDetails);
+  const thisMessage = data.updateMessage(newDescription, newDetails);
 
   res.status(200).json({
     sucess: true,
