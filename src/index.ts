@@ -8,7 +8,7 @@ import IUser from './interfaces/IUser';
 
 import Message from './classes/Messages';
 
-// Middlawres
+// Middlewares
 import validId from './middlewares/md-valid-id';
 import validUser from './middlewares/md-valid-user';
 import validName from './middlewares/md-valid-name';
