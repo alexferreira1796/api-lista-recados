@@ -102,12 +102,12 @@ app.get("/messages/:id", [validId, validUser], (req: Request, res: Response) => 
 app.post("/message/add/:id", [validId, validUser, validDescription, validDetails], (req: Request, res: Response) => {
   const {description, details, data}: {description: string, details: string, data: User} = req.body;
 
-  data.setMessages(description, details);
+  const messages = data.setMessages(description, details);
 
   return res.status(201).json({
     success: true,
     msg: "saved with success",
-    data: data.getAllMessages()
+    data: messages
   });
 
 });
