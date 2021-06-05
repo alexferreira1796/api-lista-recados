@@ -65,7 +65,7 @@ app.get("/user/name/:name", [validUser], (req: Request, res: Response) => {
   
   return res.status(200).json({
     success: true,
-    msg: "user success",
+    msg: "User exists",
     data: data
   });
 
