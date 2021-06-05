@@ -14,7 +14,7 @@ function validUser(req: Request, res: Response, next: NextFunction) {
   }
   
   if(!hasUser) {
-    return res.status(400).json({
+    return res.status(200).json({
       success: false,
       msg: 'User not found',
       data: null,
