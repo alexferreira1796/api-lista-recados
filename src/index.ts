@@ -59,6 +59,18 @@ app.get("/user/:id", [validId, validUser], (req: Request, res: Response) => {
 
 });
 
+// Retornando o usuário pelo Name
+app.get("/user/:name", [validId, validUser], (req: Request, res: Response) => {
+  const {data}: {data: User} = req.body;
+  
+  return res.status(200).json({
+    success: true,
+    msg: "user success",
+    data: data
+  });
+
+});
+
 // Adicionado um novo usuário
 app.post("/user/add", [validName, validPassword], (req: Request, res: Response) => {
   const {name, password, repeatPass}: {name: string, password: string, repeatPass: string} = req.body;

@@ -3,9 +3,16 @@ import {Request, Response, NextFunction} from 'express';
 import { users } from '../data';
 
 function validUser(req: Request, res: Response, next: NextFunction) {
-  const {id}: {id?: string} = req.params;
-
-  const hasUser = users.find((item) => item.getId() === id);
+  const {id, name}: {id?: string, name?: string} = req.params;
+  let hasUser;
+  
+  if(id) {
+    hasUser = users.find((item) => item.getId() === id);
+  }
+  if(name) {
+    hasUser = users.find((item) => item.getUser() === name);
+  }
+  
   if(!hasUser) {
     return res.status(400).json({
       success: false,
