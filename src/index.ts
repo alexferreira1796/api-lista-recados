@@ -75,7 +75,7 @@ app.get("/user/name/:name", [validUser], (req: Request, res: Response) => {
 app.post("/user/add", [validName, validPassword], (req: Request, res: Response) => {
   const {name, password, repeatPass}: {name: string, password: string, repeatPass: string} = req.body;
 
-  const newUser = new User(name, password, repeatPass);
+  const newUser = new User(name.toLowerCase(), password, repeatPass);
   listUser.push(newUser);
 
   return res.status(201).json({
