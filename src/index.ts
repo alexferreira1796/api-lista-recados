@@ -60,7 +60,7 @@ app.get("/user/:id", [validId, validUser], (req: Request, res: Response) => {
 });
 
 // Retornando o usuário pelo Name
-app.get("/user/:name", [validUser], (req: Request, res: Response) => {
+app.get("/user/name/:name", [validUser], (req: Request, res: Response) => {
   const {data}: {data: User} = req.body;
   
   return res.status(200).json({
