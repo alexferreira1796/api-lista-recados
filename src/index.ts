@@ -41,7 +41,7 @@ app.get('/', (req: Request, res: Response) => {
 // Retornando todos os users
 app.get("/users", (req: Request, res: Response) => {
   res.status(200).json({
-    sucess: true,
+    success: true,
     msg: "list users success",
     data: listUser
   });
@@ -118,7 +118,7 @@ app.get("/user/:id/message/:idMessage", [validId, validUser, validMessage], (req
 
   return res.status(200).json({
     success: true,
-    msg: "message sucess",
+    msg: "message success",
     data
   });
 });
@@ -133,7 +133,7 @@ app.put("/user/:id/message/:idMessage", [validId, validUser, validDescription, v
   const thisMessage = data.updateMessage(newDescription, newDetails);
 
   res.status(200).json({
-    sucess: true,
+    success: true,
     msg: "updated with success",
     data: thisMessage
   })
