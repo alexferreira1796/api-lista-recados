@@ -40,10 +40,17 @@ app.get('/', (req: Request, res: Response) => {
 // Rotas de Usuário
 // Retornando todos os users
 app.get("/users", (req: Request, res: Response) => {
+  const newList = listUser.map((item) => (
+    { 
+      id: item.getId(), 
+      user: item.getUser()
+    }
+  )) 
+
   res.status(200).json({
     success: true,
     msg: "list users success",
-    data: listUser
+    data: newList
   });
 });
 
@@ -75,7 +82,17 @@ app.get("/user/name/:name", [validUser], (req: Request, res: Response) => {
 app.post("/user/add", [validName, validPassword], (req: Request, res: Response) => {
   const {name, password, repeatPass}: {name: string, password: string, repeatPass: string} = req.body;
 
-  const newUser = new User(name.toLowerCase(), password, repeatPass);
+  const lowerName = name.toLowerCase();
+  const hasUser = listUser.find((item) => item.getUser() === lowerName);
+  if(hasUser) {
+    return res.status(400).json({
+      success: false,
+      msg: 'User exists',
+      data: null,
+    })
+  }
+
+  const newUser = new User(lowerName, password, repeatPass);
   listUser.push(newUser);
 
   return res.status(201).json({
